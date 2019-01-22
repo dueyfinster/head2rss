@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>News RSS Feeds</title>
+		<meta name="viewport" content="width=device-with, initial-scale=1.0">
+		<style type="text/css">
+			.container{
+				max-width: 700px;
+				padding-top: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<table class="">
+			<thead>
+				<tr>
+					<th>Feed Name</th>
+					<th>Feed Atom URL</th>
+					<th>Feed RSS URL</th>
+				</tr>
+			</thead>
+		{% if feeds %}
+			{% for feed in feeds %}
+				<tr>
+					<td>{{ feed.name }}</td>
+					<td>{{ feed.atom }}</td>
+					<td>{{ feed.rss }}</td>
+				</tr>
+			{% endfor %}
+		{% endif %}
+		</table>
+	</body>
+</html>
+
