@@ -5,7 +5,7 @@ from urllib.request import urlopen
 from urllib.parse import urlparse
 import configparser
 from bs4 import BeautifulSoup
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response
 from email.utils import formatdate
 
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def get_headlines(url, pub_date):
     for section in soup.select("div.trendingarticles > div.story"):
         d = {}
         d['title'] = section.find("span", class_="tr-headline").get_text()
-        d['url'] = URL + section.find("a").get("href")
+        d['url'] = url + section.find("a").get("href")
         d['pub_date'] = pub_date
         articles.append(d)
     return articles
@@ -39,6 +39,7 @@ def get_site(site_key):
     site = {}
     site['title'] = conf['title']
     site['url'] = conf['url']
+    site['description'] = conf['description']
     site['pub_date'] = formatdate()
     site['articles'] = get_headlines(str(conf['url']), formatdate())
     
@@ -48,9 +49,12 @@ def get_site(site_key):
 def index():
     return render_template('index.html', feeds=[])
 
-@app.route("/<news_source>.rss")
+@app.route("/<news_source>.xml")
 def get_rss_feed(news_source):
-    return render_template('index.rss', site=get_site(news_source))
+    rss_xml = render_template('index.xml', site=get_site(news_source))
+    response = make_response(rss_xml)
+    response.headers['Content-Type'] = 'application/rss+xml'
+    return response
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
