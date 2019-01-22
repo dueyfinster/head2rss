@@ -12,4 +12,4 @@ RUN set -ex && pipenv install --dev --deploy --system
 
 COPY . /usr/src/app
 
-CMD /usr/src/app/news2rss.py
+CMD /usr/src/app/server.py
