@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title }}</title>
+    <description>{{ site.description }}</description>
+    <link>{{ site.url }}/</link>
+    <pubDate>{{ site.pub_date }}</pubDate>
+    <lastBuildDate>{{ site.pub_date }}</lastBuildDate>
+    <generator>head2rss</generator>
+    {% for article in site.articles %}
+      <item>
+        <title>{{ article.title }}</title>
+        <description>{{ article.title }}</description>
+        <pubDate>{{ site.pub_date }}</pubDate>
+        <link>{{ article.url }}</link>
+        <guid isPermaLink="true">{{ article.url }}</guid>
+      </item>
+    {% endfor %}
+  </channel>
+</rss>
