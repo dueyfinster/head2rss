@@ -18,16 +18,25 @@ def get_data(url):
     result = urlopen(url).read()
     return BeautifulSoup(result, "html.parser")
 
-def get_headlines(url, pub_date):
-    url = urlparse(url).geturl()
+def get_headlines(conf, pub_date):
+    url = urlparse(conf['url']).geturl()
     soup = get_data(url)
+
     articles = []
-    for section in soup.select("div.trendingarticles > div.story"):
+    sections = soup.select(str(conf['section_selector']))
+
+    if conf.getboolean('prepend_url'):
+        purl = url
+    else:
+        purl = ''
+
+    for section in sections:
         d = {}
-        d['title'] = section.find("span", class_="tr-headline").get_text()
-        d['url'] = url + section.find("a").get("href")
+        d['title'] = section.select(conf['headline_selector'])[0].get_text()
+        d['url'] = purl + section.find("a").get("href")
         d['pub_date'] = pub_date
         articles.append(d)
+
     return articles
 
 
@@ -41,7 +50,7 @@ def get_site(site_key):
     site['url'] = conf['url']
     site['description'] = conf['description']
     site['pub_date'] = formatdate()
-    site['articles'] = get_headlines(str(conf['url']), formatdate())
+    site['articles'] = get_headlines(conf, formatdate())
     
     return site
 
@@ -53,7 +62,7 @@ def index():
 def get_rss_feed(news_source):
     rss_xml = render_template('index.xml', site=get_site(news_source))
     response = make_response(rss_xml)
-    response.headers['Content-Type'] = 'application/rss+xml'
+    response.headers['Content-Type'] = 'text/xml'
     return response
 
 if __name__ == "__main__":
