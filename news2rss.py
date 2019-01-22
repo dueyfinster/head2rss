@@ -22,10 +22,13 @@ def main():
   """
 	Main Method if running on the CLI
 	"""
-  URL = 'https://www.irishtimes.com/' # TODO: Sample url
+  URL = 'https://www.irishtimes.com' # TODO: Sample url
   session = requests.session()
   soup = get_data(session, URL)
-  print(soup)
+  ta_section = soup.find("div", class_="trendingarticles")
+  for section in ta_section.find_all("div", class_="story"):
+    print('Headline:',section.find("span", class_="tr-headline").get_text())
+    print('URL:', URL + section.find("a").get("href"))
 
 
 if __name__ == "__main__":
