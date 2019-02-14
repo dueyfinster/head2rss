@@ -1,5 +1,7 @@
 FROM python:3.7
 
+EXPOSE 80
+
 RUN set -ex && pip install pipenv --upgrade
 RUN set -ex && mkdir /usr/src/app
 
