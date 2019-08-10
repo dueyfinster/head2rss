@@ -7,6 +7,7 @@ import configparser
 from bs4 import BeautifulSoup
 from flask import Flask, render_template, make_response
 from email.utils import formatdate
+import logging
 
 app = Flask(__name__)
 
@@ -31,6 +32,7 @@ def get_headlines(conf, pub_date):
         purl = ''
 
     for section in sections:
+        #logging.error(section)
         d = {}
         d['title'] = section.select(conf['headline_selector'])[0].get_text()
         d['url'] = purl + section.find("a").get("href")
