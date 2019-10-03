@@ -1,12 +1,13 @@
+-i https://pypi.org/simple/
 beautifulsoup4==4.7.1
-certifi==2018.11.29
-Click==7.0
-Flask==1.0.2
+certifi==2019.9.11
+click==7.0
+flask==1.0.2
 itsdangerous==1.1.0
-Jinja2==2.10
-MarkupSafe==1.1.0
+jinja2==2.10.1
+markupsafe==1.1.1
 pipenv==2018.11.26
-soupsieve==1.7.2
-virtualenv==16.2.0
-virtualenv-clone==0.5.0
-Werkzeug==0.14.1
+soupsieve==1.9.4
+virtualenv-clone==0.5.3
+virtualenv==16.7.5
+werkzeug==0.15.3
