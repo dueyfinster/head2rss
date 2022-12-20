@@ -2,15 +2,13 @@ FROM python:3.7-alpine
 
 EXPOSE 80
 
-RUN set -ex && pip install pipenv --upgrade
 RUN set -ex && mkdir /usr/src/app
 
 WORKDIR /usr/src/app
 
-COPY Pipfile Pipfile
-COPY Pipfile.lock Pipfile.lock
+COPY requirements.txt requirements.txt
 
-RUN set -ex && pipenv install --dev --deploy --system
+RUN set -ex && pip3 install -r requirements.txt
 
 COPY . /usr/src/app
 
